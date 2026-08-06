@@ -8,7 +8,7 @@ media:
 
 content:
   - name: club
-    label: "REPLACE ME — New Club"
+    label: "SoCal Robotics & STEM Foundation"
     type: file
     path: club.json
     format: json
