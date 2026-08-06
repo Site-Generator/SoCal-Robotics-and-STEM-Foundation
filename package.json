@@ -1,0 +1,16 @@
+{
+  "name": "club-site-generator",
+  "version": "1.0.0",
+  "description": "Static site generator for school lub websites",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "build": "node build.js",
+    "preview": "node scripts/_dev-static-server.js"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "sharp": "^0.35.3"
+  }
+}

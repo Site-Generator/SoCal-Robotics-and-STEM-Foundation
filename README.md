@@ -1,0 +1,107 @@
+# club-site-generator-core
+
+The core for all the sites created using the site generator.
+
+The shared static-site generator engine behind every club's website. This repo
+contains **no club data** — `build.js`, the JSON schema, and the HTML/CSS
+templates only. Each club's actual content (`club.json`, `images/`) lives in
+its own dedicated repo, which pulls this engine in via `git subtree` under a
+`generator/` subfolder. If you're looking for a specific club's content or
+site, you're in the wrong repo — go to that club's own `<slug>-site` repo.
+
+## What's here
+
+```
+build.js               # reads club.json, validates it, renders HTML, optimizes+strips images
+club.schema.json        # ajv schema every club.json must satisfy
+scripts/
+  club-target.js         # slug/data-dir resolution, shared by build.js and every club's CI
+  _dev-static-server.js   # throwaway local preview server (not part of the build)
+template/                # page.html, app-shell.html, style.css, app-shell.css, sections/*.html
+```
+
+## Building locally
+
+This repo has no club data of its own, so building requires pointing it at
+some `club.json` — either a throwaway fixture for testing the engine itself,
+or (via `CLUB_DATA_DIR`) at a real club repo's data:
+
+```bash
+npm install
+mkdir -p clubs/test-fixture
+echo '{ "clubName": "Test Fixture" }' > clubs/test-fixture/club.json
+node build.js --club=test-fixture
+```
+
+## CLI / environment variables
+
+`build.js` resolves a club slug the same way every consumer does (see
+`scripts/club-target.js`):
+1. `--club=<slug>` flag
+2. `CLUB_SLUG` environment variable
+3. Falls back to `example-club`
+
+Once a slug is resolved, where its `club.json`/`images/` actually live is
+controlled by `CLUB_DATA_DIR`:
+- **Unset** (default): looks in this repo's own `clubs/<slug>/` — useful only
+  for local engine testing, since this repo doesn't ship real club data.
+- **Set** (e.g. `CLUB_DATA_DIR=..`): resolves relative to this repo's own
+  directory. In a club repo where this engine sits at `generator/` and
+  `club.json` sits one level up at the repo root, `CLUB_DATA_DIR=..` is what
+  every real club's GitHub Pages workflow sets.
+
+## Image metadata
+
+Every uploaded raster image (jpg/png/webp/tiff/gif) is re-encoded through
+`sharp` before it lands in `dist/images/` — not just the ones being resized
+for exceeding `MAX_WIDTH`. `sharp` drops EXIF/ICC/GPS metadata by default
+unless `.withMetadata()` is called, so this strips things like a photo's
+camera model or embedded GPS location before it becomes a publicly served
+file, even for small images that don't need resizing. Dimensions, format,
+and animation (GIF/WEBP) are preserved — this is a metadata-only pass, not a
+quality change. SVGs are copied through as-is (not run through sharp).
+
+## Letting one club customize its design
+
+A club that wants a genuinely custom look (not just the `theme` colors/fonts
+in `club.json`) can add a `custom-template/` folder at its own repo root
+(sibling to `club.json`, **not** inside `generator/`), mirroring `template/`'s
+structure. `build.js` checks there first for every template file it loads —
+`page.html`, `app-shell.html`, `style.css`, `app-shell.css`,
+`sections/*.html` — and only falls back to this repo's built-in version for
+files the club didn't override. A club can override just one file (e.g. only
+`style.css`) and keep using the default for everything else.
+
+This is the supported way for a club to diverge from the shared design.
+Editing files under `generator/` directly instead is unsupported — a future
+`git subtree pull` there is a real git merge and can produce conflicts;
+`custom-template/` never syncs from here at all, so it's conflict-free by
+construction.
+
+## Propagating a fix to every club
+
+Pushing a change here does **not** directly update any club repo — each club
+repo pulls this engine in via `git subtree`, which needs an explicit pull to
+receive anything new.
+
+**Automatic:** `.github/workflows/notify-fleet.yml` fires on every push to
+`main` and sends a `repository_dispatch` to the private `club-fleet-tools`
+repo, which runs the actual sync. This file deliberately contains zero
+club-specific information (no repo names, no URLs) since it's copied into
+every club's `generator/.github/workflows/` via subtree along with everything
+else here — only `club-fleet-tools`'s own coordinates are referenced. It
+authenticates via the `FLEET_DISPATCH_TOKEN` secret (repository secret on
+*this* repo, fine-grained, scoped to write access on just `club-fleet-tools`
+— see that repo's README for the full secrets setup).
+
+**Manual fallback**, if the automation is ever down: someone with push access
+to every club repo runs, per club repo:
+
+```bash
+git subtree pull --prefix=generator <this-repo-url> main --squash
+git push
+```
+
+That loop (scripted as `sync-generator.sh`) and the roster of club repo URLs
+live in `club-fleet-tools` — deliberately not here, since the roster
+shouldn't be visible to every club's officers.
