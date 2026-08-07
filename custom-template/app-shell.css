@@ -1,0 +1,358 @@
+/* ---------- Design tokens ----------
+   SoCal Robotics & STEM Foundation — dark/technical identity, inspired by
+   juicerobotics.org's bold dark energy but with its own palette: graphite
+   black + Circuit Cyan (interactive/links) + Solder Copper (CTAs/badges),
+   instead of a straight copy of Juice's orange-on-black.
+
+   Self-contained on purpose — this file is never loaded alongside
+   generator/template/style.css, so a full palette lives here rather than
+   being shared, keeping the siteMode "single" path provably untouched. */
+:root {
+    --bg:        #0B0D10;   /* graphite black, not pure black */
+    --surface:   #14171C;   /* card backgrounds */
+    --text:      #EDEEF0;
+    --muted:     #9AA1AC;
+    --primary:   #3FD9C7;   /* Circuit Cyan — links, active nav, avatar fills, dates */
+    --primary-d: #22A896;   /* cyan hover/pressed shade */
+    --accent:    #FF7A33;   /* Solder Copper — CTAs, award badges */
+    --accent-d:  #E8661F;   /* copper hover/pressed shade */
+    --border:    #22262C;
+    --radius:    10px;
+    --radius-lg: 16px;
+    --shadow:    0 8px 24px rgba(0, 0, 0, .5);
+
+    /* Both accent hues are light/bright — white text on either fails WCAG AA
+       (~2.2:1). Dark text on either passes comfortably (~7-11:1). Anything
+       painted with --primary or --accent as a *background* must use --bg
+       (or --accent-text, same value) for its text/icon color, never white. */
+    --accent-text: #0B0D10;
+
+    --hero-fallback-bg: linear-gradient(135deg, #14171C 0%, #0B0D10 60%);
+    --head-font: "Space Grotesk", Georgia, "Times New Roman", serif;
+    --body-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono-font: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    --topbar-h: 60px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: var(--body-font);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    overflow-x: hidden;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+
+/* ---------- App shell layout ----------
+   No more persistent sidebar/bottom-bar — a fixed top bar with a hamburger
+   button reveals a dropdown nav panel. .tab-content is a plain column. */
+.app-shell { display: block; min-height: 100vh; }
+
+/* ---------- Top bar + hamburger ---------- */
+.topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+    height: var(--topbar-h);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px;
+    background: rgba(11, 13, 16, .88);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+}
+.topbar-brand {
+    font-family: var(--head-font); font-weight: 700; font-size: 1.05rem; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.hamburger-btn {
+    width: 44px; height: 44px; flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; border: 0; border-radius: 8px; cursor: pointer; padding: 0;
+}
+.hamburger-btn:hover { background: var(--surface); }
+.hamburger-box { position: relative; width: 20px; height: 14px; }
+.hamburger-line {
+    position: absolute; left: 0; width: 100%; height: 2px; border-radius: 1px;
+    background: var(--text); transition: transform .2s ease, opacity .2s ease, top .2s ease;
+}
+.hamburger-line:nth-child(1) { top: 0; }
+.hamburger-line:nth-child(2) { top: 6px; }
+.hamburger-line:nth-child(3) { top: 12px; }
+.hamburger-btn.is-open .hamburger-line:nth-child(1) { top: 6px; transform: rotate(45deg); }
+.hamburger-btn.is-open .hamburger-line:nth-child(2) { opacity: 0; }
+.hamburger-btn.is-open .hamburger-line:nth-child(3) { top: 6px; transform: rotate(-45deg); }
+
+/* ---------- Nav panel (hamburger dropdown) ---------- */
+.nav-panel {
+    position: fixed; top: var(--topbar-h); left: 0; right: 0; z-index: 29;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; padding: 8px;
+    max-height: calc(100vh - var(--topbar-h)); overflow-y: auto;
+    transform: translateY(-8px); opacity: 0; pointer-events: none;
+    transition: transform .18s ease, opacity .18s ease;
+}
+.nav-panel.is-open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.nav-panel-item {
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    padding: 12px 14px; min-height: 44px; border-radius: 10px; border: 0; background: transparent;
+    cursor: pointer; color: var(--muted); text-align: left; font: inherit;
+    transition: background .15s ease, color .15s ease;
+}
+.nav-panel-item:hover { background: var(--bg); color: var(--text); }
+.nav-panel-item.is-active { background: var(--bg); color: var(--primary); }
+.nav-panel-icon { flex: 0 0 auto; width: 20px; height: 20px; display: flex; }
+.nav-panel-icon svg { width: 100%; height: 100%; }
+.nav-panel-label { font-size: .92rem; font-weight: 600; }
+
+.tab-content {
+    box-sizing: border-box;
+    padding: calc(var(--topbar-h) + 20px) 18px 32px;
+    max-width: 720px; margin: 0 auto;
+}
+.tab-panel { display: none; }
+.tab-panel.is-active { display: block; }
+.app-footer {
+    color: var(--muted); text-align: center; padding: 28px 0; font-size: .82rem;
+    margin-top: 12px; border-top: 1px solid var(--border);
+}
+
+/* ---------- Shared bits ---------- */
+.tab-heading {
+    font-family: var(--head-font); font-weight: 700; font-size: 1.15rem;
+    letter-spacing: -.01em; color: var(--text); margin: 0 0 14px; text-align: left;
+}
+.empty-note { color: var(--muted); font-size: .92rem; }
+.btn {
+    display: inline-block; min-height: 44px; line-height: 1.4; box-sizing: border-box;
+    padding: 12px 26px; border-radius: 999px; font-weight: 600;
+    text-decoration: none; cursor: pointer; border: 2px solid transparent;
+    transition: background .15s ease;
+}
+.btn-primary { background: var(--accent); color: var(--accent-text); }
+.btn-primary:hover { background: var(--accent-d); }
+.see-all { background: none; border: 0; padding: 0; font-size: .8rem; font-weight: 600; color: var(--primary); cursor: pointer; }
+.see-all:hover { color: var(--primary-d); }
+
+/* ---------- Home: hero ----------
+   Stacked layout: a fixed-aspect image band, then a plain text band below
+   it (no more text overlaid on the photo). .home-hero-placeholder::before
+   carries the circuit-trace signature pattern when no real photo has been
+   uploaded yet — pure CSS background art, since renderHeroSection()'s
+   markup in build.js can't be overridden via custom-template (only whole
+   files can, and this club's build.js is a deliberate, documented fork —
+   see README). */
+.home-hero { display: flex; flex-direction: column; margin: -24px -18px 28px; }
+.home-hero-media {
+    position: relative; overflow: hidden; isolation: isolate;
+    aspect-ratio: 4 / 3; background: var(--hero-fallback-bg);
+}
+.home-hero-img { width: 100%; height: 100%; object-fit: cover; }
+.home-hero-placeholder { position: absolute; inset: 0; background: var(--hero-fallback-bg); }
+.home-hero-placeholder::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+        linear-gradient(90deg, rgba(63,217,199,.14) 1px, transparent 1px),
+        linear-gradient(rgba(63,217,199,.14) 1px, transparent 1px);
+    background-size: 34px 34px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 70% 30%, #000 40%, transparent 85%);
+            mask-image: radial-gradient(ellipse 90% 70% at 70% 30%, #000 40%, transparent 85%);
+}
+.home-hero-text { padding: 20px 0 0; }
+.home-hero-eyebrow {
+    font-family: var(--mono-font); font-size: .8rem; font-weight: 500;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--primary); margin: 0 0 8px;
+}
+.home-hero-title {
+    font-family: var(--head-font); font-weight: 800; letter-spacing: -.02em;
+    color: var(--text); font-size: clamp(2rem, 8vw, 2.75rem); margin: 0 0 6px; line-height: 1.05;
+}
+.home-hero-meta { font-family: var(--mono-font); font-size: .85rem; color: var(--muted); margin: 0 0 16px; }
+
+/* ---------- Home: about row ---------- */
+.about-row { display: flex; flex-direction: column; gap: 18px; margin-bottom: 28px; }
+.about-col { flex: 2; }
+.about-text { color: var(--muted); font-size: .95rem; line-height: 1.6; margin: 0; }
+.advisor-card {
+    flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 18px 20px; display: flex; gap: 12px; align-items: center; height: fit-content;
+}
+.advisor-icon { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 9px; background: var(--primary); }
+.advisor-text { margin: 0; font-size: .88rem; color: var(--muted); }
+.advisor-text strong { color: var(--text); }
+
+/* ---------- Home: teaser row (Next Up + Team preview — 2 cards) ---------- */
+.teaser-row { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 28px; }
+.teaser-card {
+    border-radius: var(--radius-lg); padding: 18px 20px; background: var(--surface);
+    border: 1px solid var(--border); transition: transform .2s ease, box-shadow .2s ease;
+}
+.teaser-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+/* Next-Up card gets the boldest treatment — copper, tying it visually to
+   the hero's Join Us CTA. Dark text per the accent-contrast rule above. */
+.teaser-card.teaser-primary {
+    background: var(--accent); border-color: var(--accent); color: var(--accent-text);
+    display: flex; flex-direction: column; gap: 10px;
+}
+.teaser-eyebrow { font-family: var(--mono-font); font-size: .72rem; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+.teaser-card.teaser-primary .event-day-col { text-align: left; }
+.teaser-card.teaser-primary .event-day-num { color: var(--accent-text); }
+.teaser-card.teaser-primary .event-day-wd { color: rgba(11,13,16,.7); }
+.teaser-title { font-weight: 600; font-size: .96rem; margin: 2px 0 0; }
+.teaser-desc { font-size: .84rem; opacity: .85; margin: 2px 0 0; }
+.teaser-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+.teaser-card-title { font-family: var(--head-font); font-weight: 600; font-size: .96rem; color: var(--text); }
+
+.mini-avatar-row { display: flex; gap: 8px; }
+.mini-avatar-item { flex: 1; min-width: 0; text-align: center; }
+.mini-avatar {
+    width: 38px; height: 38px; border-radius: 50%; margin: 0 auto 6px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--primary); color: var(--bg); font-weight: 700; font-size: .72rem; object-fit: cover;
+}
+.mini-avatar-name { font-size: .68rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- Home: stats ---------- */
+.stats-section { margin-bottom: 28px; }
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.stat-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 12px; text-align: center;
+}
+.stat-value { font-family: var(--mono-font); font-weight: 700; font-size: 1.6rem; color: var(--primary); }
+.stat-label { font-size: .76rem; color: var(--muted); margin-top: 4px; }
+
+/* ---------- Home: gallery preview ---------- */
+.preview-section { margin-bottom: 28px; }
+.gallery-preview-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.gallery-preview-item { border-radius: 14px; overflow: hidden; aspect-ratio: 1 / 1; }
+.gallery-preview-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+.gallery-preview-item:hover img { transform: scale(1.06); }
+
+/* ---------- Quick links ---------- */
+.quick-links-section { margin-bottom: 28px; }
+.quick-links-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.quick-link-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px;
+    text-align: center; text-decoration: none; display: block; transition: transform .2s ease, box-shadow .2s ease;
+}
+.quick-link-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.quick-link-icon { display: block; width: 24px; height: 24px; margin: 0 auto 8px; color: var(--primary); object-fit: contain; }
+.quick-link-label { display: block; font-size: .84rem; font-weight: 600; color: var(--text); }
+
+/* ---------- Events tab ---------- */
+.event-month-label {
+    font-family: var(--mono-font); font-size: .74rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--muted); margin: 20px 0 10px;
+}
+.event-month-group:first-child .event-month-label { margin-top: 0; }
+.event-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.event-card2 {
+    display: flex; gap: 14px; align-items: center; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 16px; transition: transform .2s ease, box-shadow .2s ease;
+}
+.event-card2:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.event-day-col { flex: 0 0 auto; width: 44px; text-align: center; }
+.event-day-num { display: block; font-family: var(--mono-font); font-weight: 700; font-size: 1.1rem; color: var(--primary); }
+.event-day-wd { display: block; font-family: var(--mono-font); font-size: .64rem; color: var(--muted); text-transform: uppercase; }
+.event-card2-title { margin: 0 0 4px; font-size: .94rem; font-weight: 600; color: var(--text); }
+.event-card2-desc { margin: 0; font-size: .83rem; color: var(--muted); }
+
+/* ---------- Team tab ---------- */
+.members-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+.member-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 10px;
+    text-align: center; transition: transform .2s ease, box-shadow .2s ease;
+}
+.member-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.member-avatar {
+    width: 52px; height: 52px; border-radius: 50%; margin: 0 auto 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--primary); color: var(--bg); font-weight: 700; font-size: .95rem; object-fit: cover;
+}
+.member-name { font-weight: 600; font-size: .88rem; color: var(--text); }
+.member-role { font-size: .78rem; color: var(--muted); }
+
+/* Reused output from renderAwards()/renderGallery() — this page never loads
+   generator/template/style.css, so their .section/.container/etc. classes
+   need equivalents here. Now also used for the promoted Home-page awards
+   section, not just the Team tab. */
+.tab-panel .section { padding: 0; margin: 0 0 28px; background: none; }
+.tab-panel .container { max-width: none; width: 100%; margin: 0; padding: 0; }
+.tab-panel .section-title { font-family: var(--head-font); font-weight: 700; font-size: 1.05rem; text-align: left; margin: 0 0 14px; color: var(--text); }
+.tab-panel .section-lead { display: none; }
+
+.award-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: 1fr; }
+.award-card {
+    display: flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 16px; transition: transform .2s ease, box-shadow .2s ease;
+}
+.award-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.award-year { flex: 0 0 auto; font-family: var(--mono-font); font-weight: 700; font-size: .78rem; color: var(--accent-text); background: var(--accent); border-radius: 8px; padding: 6px 9px; }
+.award-title { margin: 0; font-size: .88rem; color: var(--text); }
+.award-desc { margin: 3px 0 0; font-size: .78rem; color: var(--muted); }
+
+.gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 0; padding: 0; }
+.gallery-item { margin: 0; border-radius: 14px; overflow: hidden; }
+.gallery-item img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; transition: transform .3s ease; }
+.gallery-item:hover img { transform: scale(1.06); }
+
+/* ---------- More tab ---------- */
+.more-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px 24px; margin-bottom: 28px; text-align: center; }
+.more-lead { color: var(--text); font-size: 1.3rem; margin: 0 0 20px; max-width: 640px; margin-left: auto; margin-right: auto; }
+.more-row { margin: 10px 0; font-size: 1.05rem; }
+.more-row strong { color: var(--text); }
+.more-row span { color: var(--muted); }
+.more-join-btn { margin-top: 20px; }
+
+/* ---------- Accessibility ---------- */
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.btn-primary:focus-visible { outline-color: var(--accent-text); }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: .001ms !important;
+        animation-duration: .001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ================= Tablet / laptop ================= */
+@media (min-width: 768px) {
+    .topbar { padding: 0 32px; }
+    .nav-panel { left: auto; right: 24px; width: 260px; border-radius: 0 0 var(--radius-lg) var(--radius-lg); border: 1px solid var(--border); border-top: 0; }
+
+    .tab-content { max-width: 960px; padding: calc(var(--topbar-h) + 28px) 40px 8px; }
+
+    .home-hero { margin: 0 0 28px; }
+    .home-hero-media { border-radius: var(--radius-lg); aspect-ratio: 21 / 9; }
+    .home-hero-text { padding: 24px 0 0; }
+    .home-hero-title { font-size: clamp(2.75rem, 5vw, 3.5rem); }
+
+    .about-row { flex-direction: row; gap: 28px; }
+    .teaser-row { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .stats-row { gap: 16px; }
+    .quick-links-grid { grid-template-columns: repeat(3, 1fr); }
+    .gallery-preview-grid { grid-template-columns: repeat(4, 1fr); }
+    .event-grid { grid-template-columns: repeat(2, 1fr); }
+    .members-grid { grid-template-columns: repeat(3, 1fr); }
+    .award-list { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 992px) {
+    .tab-content { max-width: 1200px; padding: calc(var(--topbar-h) + 32px) 56px 8px; }
+    .home-hero-title { font-size: clamp(3.25rem, 4vw, 4rem); }
+    .about-row { gap: 40px; }
+    .teaser-row { gap: 24px; }
+    .stats-row { gap: 20px; }
+    .event-grid { grid-template-columns: repeat(3, 1fr); }
+    .members-grid { grid-template-columns: repeat(4, 1fr); }
+    .award-list { grid-template-columns: repeat(3, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+}

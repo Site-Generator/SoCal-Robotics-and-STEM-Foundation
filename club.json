@@ -1,3 +1,47 @@
 {
-  "clubName": "SoCal Robotics & STEM Foundation"
+  "clubName": "SoCal Robotics & STEM Foundation",
+  "siteMode": "dynamic",
+  "tagline": "Building robots. Building engineers.",
+  "advisorName": "Dr. Elena Marsh",
+  "description": "SoCal Robotics & STEM Foundation is a nonprofit supporting robotics teams and STEM education across Southern California. We provide mentorship, tools, and competition support to students who want to design, build, and program real machines — no prior experience required.",
+  "meetingTime": "Saturdays, 10:00 AM – 1:00 PM at the Innovation Lab",
+  "moreText": "Want to get involved? Students, mentors, and sponsors are all welcome — come to a Saturday session or reach out below.",
+  "theme": {
+    "primaryColor": "#3FD9C7",
+    "accentColor": "#FF7A33",
+    "accentTextColor": "#0B0D10",
+    "backgroundColor": "#0B0D10",
+    "surfaceColor": "#14171C",
+    "textColor": "#EDEEF0",
+    "mutedTextColor": "#9AA1AC",
+    "borderColor": "#22262C",
+    "headingFont": "Space Grotesk",
+    "bodyFont": "Inter"
+  },
+  "links": [
+    { "label": "Instagram", "url": "#" },
+    { "label": "Donate", "url": "#" },
+    { "label": "Volunteer", "url": "#" }
+  ],
+  "officers": [
+    { "name": "Jordan Alvarez", "role": "President" },
+    { "name": "Priya Nair", "role": "Vice President" },
+    { "name": "Marcus Bell", "role": "Outreach Lead" },
+    { "name": "Ava Chen", "role": "Treasurer" }
+  ],
+  "events": [
+    { "title": "Fall Build Season Kickoff", "date": "2026-09-12", "description": "First Saturday session of the season — meet your team and get hands-on with this year's kit of parts." },
+    { "title": "Regional Qualifier", "date": "2026-11-07", "description": "Our teams compete for a spot at the state championship." },
+    { "title": "Community STEM Night", "date": "2026-12-05" }
+  ],
+  "awards": [
+    { "title": "Regional Innovation Award", "year": 2025, "description": "Recognized for our student-designed outreach curriculum.", "featured": true },
+    { "title": "Community Impact Grant Recipient", "year": 2024 }
+  ],
+  "stats": [
+    { "label": "Team Members", "value": "18+" },
+    { "label": "Seasons Competing", "value": "4" },
+    { "label": "Regional Awards", "value": "3" },
+    { "label": "Mentor Hours / Season", "value": "200+" }
+  ]
 }

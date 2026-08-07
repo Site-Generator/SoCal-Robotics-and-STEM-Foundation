@@ -354,22 +354,36 @@ function renderHeroSection(club) {
     const meeting = club.meetingTime
         ? `<p class="home-hero-meta">${escapeHtml(club.meetingTime)}</p>`
         : "";
-    // heroImage is a CSS background, not an <img> — a missing/not-yet-uploaded
-    // file just degrades to the gradient fallback instead of a broken-image icon.
-    const bgStyle = club.heroImage
-        ? ` style="background-image:url('${resolveImageSrc(club.heroImage)}')"`
-        : "";
+    // heroImage now renders as a real <img> (stacked image-then-text layout)
+    // rather than a CSS background with overlaid text. A missing/not-yet-
+    // uploaded file degrades to the placeholder block, not a broken <img>.
+    const media = club.heroImage
+        ? `<img class="home-hero-img" src="${resolveImageSrc(club.heroImage)}" alt="${clubNameEsc}" loading="eager">`
+        : `<div class="home-hero-placeholder" aria-hidden="true"></div>`;
     return `
-    <section class="home-hero"${bgStyle}>
-      <div class="home-hero-wash"></div>
-      <div class="home-hero-brand">${clubNameEsc}</div>
-      <div class="home-hero-content">
+    <section class="home-hero">
+      <div class="home-hero-media">${media}</div>
+      <div class="home-hero-text">
         <div class="home-hero-eyebrow">${clubNameEsc}</div>
         <h1 class="home-hero-title">${tagline}</h1>
         ${meeting}
         <a class="btn btn-primary" href="#more" data-tab-target="more">Join Us</a>
       </div>
     </section>`;
+}
+
+function renderStats(stats) {
+    if (!stats || stats.length === 0) return "";
+    const itemsHtml = stats.map(s => `
+        <div class="stat-card">
+          <div class="stat-value">${escapeHtml(s.value)}</div>
+          <div class="stat-label">${escapeHtml(s.label)}</div>
+        </div>`).join("");
+    return `
+    <div class="stats-section">
+      <h2 class="tab-heading">By The Numbers</h2>
+      <div class="stats-row">${itemsHtml}</div>
+    </div>`;
 }
 
 function renderAboutRow(club) {
@@ -425,26 +439,8 @@ function renderMembersPreview(officers) {
         </div>`).join("");
     return `
     <div class="teaser-card">
-      <div class="teaser-head"><span class="teaser-card-title">Members</span><button type="button" class="see-all" data-tab-target="members">See all &rarr;</button></div>
+      <div class="teaser-head"><span class="teaser-card-title">Team</span><button type="button" class="see-all" data-tab-target="members">See all &rarr;</button></div>
       <div class="mini-avatar-row">${preview}</div>
-    </div>`;
-}
-
-function renderAwardsPreview(awards) {
-    if (!awards || awards.length === 0) return "";
-    const pinned = awards.filter(a => a.featured === true);
-    const top = pinned.length > 0
-        ? [...pinned].sort((a, b) => b.year - a.year)
-        : [...awards].sort((a, b) => b.year - a.year).slice(0, 2);
-    const rows = top.map(a => `
-      <div class="award-preview-row">
-        <span class="award-year">${escapeHtml(a.year)}</span>
-        <span class="award-preview-title">${escapeHtml(a.title)}</span>
-      </div>`).join("");
-    return `
-    <div class="teaser-card">
-      <div class="teaser-head"><span class="teaser-card-title">Awards</span><button type="button" class="see-all" data-tab-target="members">See all &rarr;</button></div>
-      ${rows}
     </div>`;
 }
 
@@ -464,9 +460,11 @@ function renderGalleryPreview(images, clubName) {
 function renderHomeTabContent(club, variant) {
     const parts = [renderHeroSection(club), renderAboutRow(club)];
     if (variant === "teasers") {
-        const teasers = [renderNextUpTeaser(club.events), renderMembersPreview(club.officers), renderAwardsPreview(club.awards)]
+        const teasers = [renderNextUpTeaser(club.events), renderMembersPreview(club.officers)]
             .filter(Boolean);
         if (teasers.length > 0) parts.push(`<div class="teaser-row">${teasers.join("")}</div>`);
+        parts.push(renderStats(club.stats));
+        parts.push(renderAwards(club.awards));
         parts.push(renderGalleryPreview(club.images, club.clubName));
     }
     parts.push(renderQuickLinks(club.links));
@@ -512,7 +510,7 @@ function renderMembersTabContent(club) {
           <div class="member-role">${escapeHtml(o.role)}</div>
         </div>`).join("")}
     </div>`;
-    return `<h2 class="tab-heading">Members</h2>${grid}${renderAwards(club.awards)}`;
+    return `<h2 class="tab-heading">Team</h2>${grid}${renderAwards(club.awards)}`;
 }
 
 function renderMoreTabContent(club) {

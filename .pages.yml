@@ -157,6 +157,20 @@ content:
           - name: featured
             label: "Pin to Home page Awards teaser"
             type: boolean
+      - name: stats
+        label: "Home Page Stats"
+        type: object
+        list: true
+        summary: "{value} — {label}"
+        fields:
+          - name: label
+            label: "Label"
+            type: string
+            required: true
+          - name: value
+            label: "Value (e.g. 15+, 3, 200+)"
+            type: string
+            required: true
       - name: images
         label: "Gallery Images"
         type: image
