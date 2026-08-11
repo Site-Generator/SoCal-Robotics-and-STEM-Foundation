@@ -2,4 +2,3 @@ node_modules/
 generator/dist/
 generator/.club-build-slug
 generator/.wrangler/
-images/home-content.json

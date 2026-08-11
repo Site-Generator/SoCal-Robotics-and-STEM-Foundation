@@ -43,15 +43,5 @@
     { "label": "Seasons Competing", "value": "4" },
     { "label": "Regional Awards", "value": "3" },
     { "label": "Mentor Hours / Season", "value": "200+" }
-  ],
-  "heroEyebrow": "Robotics & Mentoring Org · Southern California",
-  "process": [
-    { "title": "Mentor & teach", "description": "We coach rookie FTC and FLL teams, run workshops, and bring robotics into classrooms across Southern California — because someone did the same for us." },
-    { "title": "Design & build", "description": "Every arm, drivetrain and mechanism is engineered, machined and iterated by students — from CAD to competition day." },
-    { "title": "Code & strategize", "description": "Our programmers write autonomous routines and drive software from scratch, then scout and strategize alliance by alliance." }
-  ],
-  "testimonial": {
-    "quote": "Robotics didn't just teach me to code — it taught me to lead.",
-    "attribution": "— A student officer, SoCal Robotics & STEM Foundation"
-  }
+  ]
 }

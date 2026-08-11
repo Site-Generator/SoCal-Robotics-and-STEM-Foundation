@@ -77,23 +77,14 @@
              engine's real output here HIDDEN (below) purely as a data source,
              and a script at the bottom of this file clones the real tagline,
              description, advisor/meeting line, hero image, stats, awards, and
-             quick links out of it into the visible layout.
-
-             The hero eyebrow, "What we do" steps, and quote have no
-             corresponding club.schema.json field, so they can't come from
-             club.json/{{homeTabContent}} at all. Instead they're CMS-edited as
-             their own JSON file, images/home-content.json — build.js's image
-             pipeline already copies any non-image file under images/ to
-             dist/images/ verbatim (see copyAndOptimizeImages in build.js), so
-             that file reaches the live site with zero engine changes. The
-             markup below ships with static text as a fallback (fetch failure,
-             JS disabled, or the file not existing yet); script at the bottom
-             overwrites it once the fetch resolves. See .pages.yml's second
-             `content` entry for the CMS form. -->
+             quick links out of it into the visible layout. Only the hero
+             eyebrow line, the "What we do" process steps, and the quote have
+             no corresponding club.json field, so those stay hardcoded — edit
+             them by hand below if they need to change. -->
         <div id="engine-data" hidden aria-hidden="true">{{homeTabContent}}</div>
         <div class="tab-panel" data-tab-panel="home">
             <section class="home-hero2">
-                <span class="home-hero2-eyebrow" id="home-hero-eyebrow">Robotics &amp; Mentoring Org &middot; Southern California</span>
+                <span class="home-hero2-eyebrow">Robotics &amp; Mentoring Org &middot; Southern California</span>
                 <h1 class="home-hero2-title" id="home-hero-title">
                     <span>Building robots.</span>
                     <span>Building engineers.</span>
@@ -115,22 +106,20 @@
 
             <section class="home-what2">
                 <span class="eyebrow2">What we do</span>
-                <div id="home-what2-rows">
-                    <div class="what-row2">
-                        <p class="what-num2">01</p>
-                        <h3 class="what-title2">Mentor &amp; teach</h3>
-                        <p class="what-desc2">We coach rookie FTC and FLL teams, run workshops, and bring robotics into classrooms across Southern California — because someone did the same for us.</p>
-                    </div>
-                    <div class="what-row2 what-row2-rule">
-                        <p class="what-num2">02</p>
-                        <h3 class="what-title2">Design &amp; build</h3>
-                        <p class="what-desc2">Every arm, drivetrain and mechanism is engineered, machined and iterated by students — from CAD to competition day.</p>
-                    </div>
-                    <div class="what-row2 what-row2-rule">
-                        <p class="what-num2">03</p>
-                        <h3 class="what-title2">Code &amp; strategize</h3>
-                        <p class="what-desc2">Our programmers write autonomous routines and drive software from scratch, then scout and strategize alliance by alliance.</p>
-                    </div>
+                <div class="what-row2">
+                    <p class="what-num2">01</p>
+                    <h3 class="what-title2">Mentor &amp; teach</h3>
+                    <p class="what-desc2">We coach rookie FTC and FLL teams, run workshops, and bring robotics into classrooms across Southern California — because someone did the same for us.</p>
+                </div>
+                <div class="what-row2 what-row2-rule">
+                    <p class="what-num2">02</p>
+                    <h3 class="what-title2">Design &amp; build</h3>
+                    <p class="what-desc2">Every arm, drivetrain and mechanism is engineered, machined and iterated by students — from CAD to competition day.</p>
+                </div>
+                <div class="what-row2 what-row2-rule">
+                    <p class="what-num2">03</p>
+                    <h3 class="what-title2">Code &amp; strategize</h3>
+                    <p class="what-desc2">Our programmers write autonomous routines and drive software from scratch, then scout and strategize alliance by alliance.</p>
                 </div>
             </section>
 
@@ -151,9 +140,9 @@
                 <div id="home-awards2-slot"></div>
             </section>
 
-            <section class="home-quote2" id="home-quote2">
-                <blockquote id="home-quote2-text">&ldquo;Robotics didn&rsquo;t just teach me to code — it taught me to lead.&rdquo;</blockquote>
-                <p class="home-quote2-attr" id="home-quote2-attr">— A student officer, SoCal Robotics &amp; STEM Foundation</p>
+            <section class="home-quote2">
+                <blockquote>&ldquo;Robotics didn&rsquo;t just teach me to code — it taught me to lead.&rdquo;</blockquote>
+                <p class="home-quote2-attr">— A student officer, SoCal Robotics &amp; STEM Foundation</p>
             </section>
         </div>
         <div class="tab-panel" data-tab-panel="events">
@@ -301,60 +290,6 @@
             }
         }
         hydrateHomeFromEngineData();
-
-        // Fetches images/home-content.json (see scripts/derive-home-content.js
-        // at the repo root) for the hero eyebrow, "What we do" steps, and
-        // quote — fields with no home in club.schema.json, so they can't
-        // flow through #engine-data above. The static text already in the
-        // markup is the fallback if this fetch fails or the file doesn't
-        // exist yet (fetch is async — the fallback may be visible briefly).
-        function hydrateHomeFromExtras() {
-            fetch('./images/home-content.json').then(function (res) {
-                return res.ok ? res.json() : null;
-            }).then(function (extras) {
-                if (!extras) return;
-
-                if (extras.heroEyebrow) {
-                    var eyebrow = document.getElementById('home-hero-eyebrow');
-                    if (eyebrow) eyebrow.textContent = extras.heroEyebrow;
-                }
-
-                if (Array.isArray(extras.process) && extras.process.length) {
-                    var rows = document.getElementById('home-what2-rows');
-                    rows.innerHTML = '';
-                    extras.process.forEach(function (step, i) {
-                        var row = document.createElement('div');
-                        row.className = i === 0 ? 'what-row2' : 'what-row2 what-row2-rule';
-                        var num = document.createElement('p');
-                        num.className = 'what-num2';
-                        num.textContent = String(i + 1).padStart(2, '0');
-                        var title = document.createElement('h3');
-                        title.className = 'what-title2';
-                        title.textContent = step.title || '';
-                        var desc = document.createElement('p');
-                        desc.className = 'what-desc2';
-                        desc.textContent = step.description || '';
-                        row.appendChild(num);
-                        row.appendChild(title);
-                        row.appendChild(desc);
-                        rows.appendChild(row);
-                    });
-                }
-
-                if (extras.testimonial && extras.testimonial.quote) {
-                    var quoteEl = document.getElementById('home-quote2-text');
-                    var attrEl = document.getElementById('home-quote2-attr');
-                    if (quoteEl) quoteEl.textContent = '“' + extras.testimonial.quote + '”';
-                    if (attrEl) {
-                        attrEl.textContent = extras.testimonial.attribution || '';
-                        attrEl.hidden = !extras.testimonial.attribution;
-                    }
-                }
-            }).catch(function () {
-                // Network error, file missing, or invalid JSON — keep static fallback text.
-            });
-        }
-        hydrateHomeFromExtras();
 
         function activate(tab) {
             if (TABS.indexOf(tab) === -1) tab = 'home';

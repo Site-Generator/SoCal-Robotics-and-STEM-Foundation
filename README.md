@@ -22,7 +22,6 @@ shared design; it never conflicts with future engine syncs.
 
 ```bash
 npm --prefix generator install
-node scripts/derive-home-content.js  # regenerates images/home-content.json from club.json
 CLUB_DATA_DIR=.. CLUB_SLUG=socal-robotics-stem-foundation node generator/build.js
 npm --prefix generator run preview   # serves generator/dist/ at localhost:8877
 ```
