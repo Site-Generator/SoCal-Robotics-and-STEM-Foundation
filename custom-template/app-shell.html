@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="{{fontLinkHref}}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="app-shell.css">
     {{themeOverrideStyle}}
@@ -17,6 +18,14 @@
 <div class="app-shell">
     <header class="topbar" id="topbar">
         <span class="topbar-brand">{{clubName}}</span>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="#home" class="nav-link" data-tab-target="home">Home</a>
+            <a href="#events" class="nav-link" data-tab-target="events">Events</a>
+            <a href="#members" class="nav-link" data-tab-target="members">Team</a>
+            <a href="#gallery" class="nav-link" data-tab-target="gallery">Gallery</a>
+            <a href="#more" class="nav-link" data-tab-target="more">More</a>
+            <a href="#more" class="btn btn-primary" data-tab-target="more">Get involved</a>
+        </nav>
         <button class="hamburger-btn" id="hamburger-btn" type="button"
                 aria-label="Open navigation" aria-expanded="false" aria-controls="nav-panel">
             <span class="hamburger-box" aria-hidden="true">
@@ -61,8 +70,74 @@
     </nav>
 
     <main class="tab-content" id="tab-content">
+        <!-- Home tab is hand-authored per the club's Claude Design import (hero,
+             stats, sponsors, process steps, about+quote, CTA band) — build.js's
+             renderHomeTabContent() only produces the plain hero+about+teasers
+             layout and can't be overridden piecemeal, only as a whole file. This
+             means the copy below is NOT pulled from club.json at build time;
+             editing it via Pages CMS won't change this tab. Update this block
+             by hand to keep it in sync with club.json's description/stats/
+             awards/officers/links. -->
         <div class="tab-panel" data-tab-panel="home">
-            {{homeTabContent}}
+            <section class="home-hero2">
+                <span class="home-hero2-eyebrow">Robotics &amp; Mentoring Org &middot; Southern California</span>
+                <h1 class="home-hero2-title">
+                    <span>Building robots.</span>
+                    <span>Building engineers.</span>
+                </h1>
+                <p class="home-hero2-lead">SoCal Robotics &amp; STEM Foundation is a nonprofit supporting robotics teams and STEM education across Southern California. We provide mentorship, tools, and competition support to students who want to design, build, and program real machines — no prior experience required.</p>
+                <div class="home-hero2-actions">
+                    <a href="#events" class="btn btn-primary" data-tab-target="events">See our programs
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </a>
+                    <a href="#members" class="btn btn-ghost" data-tab-target="members">Meet the team</a>
+                </div>
+            </section>
+
+            <hr class="hr2">
+
+            <section class="home-stats2">
+                <div class="stat-card2"><p class="stat-value2">18+</p><p class="stat-label2">Team Members</p></div>
+                <div class="stat-card2"><p class="stat-value2">4</p><p class="stat-label2">Seasons Competing</p></div>
+                <div class="stat-card2"><p class="stat-value2">3</p><p class="stat-label2">Regional Awards</p></div>
+                <div class="stat-card2"><p class="stat-value2">200+</p><p class="stat-label2">Mentor Hours / Season</p></div>
+            </section>
+
+            <hr class="hr2">
+
+            <section class="home-what2">
+                <span class="eyebrow2">What we do</span>
+                <div class="what-row2">
+                    <p class="what-num2">01</p>
+                    <h3 class="what-title2">Mentor &amp; teach</h3>
+                    <p class="what-desc2">We coach rookie FTC and FLL teams, run workshops, and bring robotics into classrooms across Southern California — because someone did the same for us.</p>
+                </div>
+                <div class="what-row2 what-row2-rule">
+                    <p class="what-num2">02</p>
+                    <h3 class="what-title2">Design &amp; build</h3>
+                    <p class="what-desc2">Every arm, drivetrain and mechanism is engineered, machined and iterated by students — from CAD to competition day.</p>
+                </div>
+                <div class="what-row2 what-row2-rule">
+                    <p class="what-num2">03</p>
+                    <h3 class="what-title2">Code &amp; strategize</h3>
+                    <p class="what-desc2">Our programmers write autonomous routines and drive software from scratch, then scout and strategize alliance by alliance.</p>
+                </div>
+            </section>
+
+            <section class="home-about2">
+                <figure class="home-about2-media" aria-hidden="true"></figure>
+                <div>
+                    <span class="eyebrow2">Our story</span>
+                    <h2 class="home-about2-title">About {{clubName}}</h2>
+                    <p class="home-about2-text">SoCal Robotics &amp; STEM Foundation is led by advisor <strong>Dr. Elena Marsh</strong> and a student officer team, meeting Saturdays, 10:00 AM – 1:00 PM at the Innovation Lab. We support robotics teams and STEM education across Southern California with mentorship, tools, and competition support for students who want to design, build, and program real machines.</p>
+                    <a href="#members" class="btn btn-secondary" data-tab-target="members">Meet the team</a>
+                </div>
+            </section>
+
+            <section class="home-quote2">
+                <blockquote>&ldquo;Robotics didn&rsquo;t just teach me to code — it taught me to lead.&rdquo;</blockquote>
+                <p class="home-quote2-attr">— A student officer, SoCal Robotics &amp; STEM Foundation</p>
+            </section>
         </div>
         <div class="tab-panel" data-tab-panel="events">
             {{eventsTabContent}}
@@ -77,8 +152,44 @@
             {{moreTabContent}}
         </div>
 
-        <footer class="app-footer">
-            <p>&copy; {{year}} {{clubName}}. Built with the <a href="https://github.com/Site-Generator">site generator</a>.</p>
+        <!-- Shown on every tab, not just Home — matches the prior single global footer. -->
+        <section class="home-cta2">
+            <h3 class="home-cta2-title">Build with {{clubName}}.</h3>
+            <div class="home-cta2-actions">
+                <a href="#more" class="btn btn-ghost btn-invert" data-tab-target="more">Request mentoring</a>
+                <a href="#more" class="btn btn-ghost btn-invert" data-tab-target="more">Become a sponsor</a>
+                <a href="#more" class="btn btn-ghost btn-invert" data-tab-target="more">Apply to join</a>
+            </div>
+        </section>
+
+        <footer class="app-footer app-footer2">
+            <div class="app-footer2-top">
+                <div class="app-footer2-brand">
+                    <div class="app-footer2-name">{{clubName}}</div>
+                    <p class="app-footer2-tagline">A nonprofit supporting robotics teams and STEM education across Southern California — meeting Saturdays, 10:00 AM – 1:00 PM at the Innovation Lab.</p>
+                </div>
+                <div class="app-footer2-cols">
+                    <div>
+                        <div class="app-footer2-heading">Site</div>
+                        <div class="app-footer2-links">
+                            <a href="#home" data-tab-target="home">Home</a>
+                            <a href="#events" data-tab-target="events">Events</a>
+                            <a href="#members" data-tab-target="members">Team</a>
+                            <a href="#gallery" data-tab-target="gallery">Gallery</a>
+                            <a href="#more" data-tab-target="more">More</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="app-footer2-heading">Connect</div>
+                        <div class="app-footer2-social">
+                            <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a>
+                            <a href="#" aria-label="Donate"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h6.5"></path><path d="M4 10h16"></path><circle cx="18" cy="17" r="3"></circle><path d="M18 15.5V17l1 .5"></path></svg></a>
+                            <a href="#" aria-label="Volunteer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="app-footer2-copy">&copy; {{year}} {{clubName}}. Built with the <a href="https://github.com/Site-Generator">site generator</a>.</p>
         </footer>
     </main>
 </div>
@@ -88,9 +199,11 @@
         var TABS = ['home', 'events', 'members', 'gallery', 'more'];
         var panels = {};
         var navItems = {};
+        var navLinks = {};
         TABS.forEach(function (t) {
             panels[t] = document.querySelector('[data-tab-panel="' + t + '"]');
             navItems[t] = document.querySelector('[data-tab="' + t + '"]');
+            navLinks[t] = document.querySelector('.nav-link[data-tab-target="' + t + '"]');
         });
 
         function activate(tab) {
@@ -102,6 +215,11 @@
                     navItems[t].classList.toggle('is-active', isActive);
                     if (isActive) navItems[t].setAttribute('aria-current', 'page');
                     else navItems[t].removeAttribute('aria-current');
+                }
+                if (navLinks[t]) {
+                    navLinks[t].classList.toggle('is-active', isActive);
+                    if (isActive) navLinks[t].setAttribute('aria-current', 'page');
+                    else navLinks[t].removeAttribute('aria-current');
                 }
             });
             history.replaceState(null, '', '#' + tab);

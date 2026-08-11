@@ -1,35 +1,34 @@
 /* ---------- Design tokens ----------
-   SoCal Robotics & STEM Foundation — dark/technical identity, inspired by
-   juicerobotics.org's bold dark energy but with its own palette: graphite
-   black + Circuit Cyan (interactive/links) + Solder Copper (CTAs/badges),
-   instead of a straight copy of Juice's orange-on-black.
+   SoCal Robotics & STEM Foundation — brutalist light identity ported from
+   the club's Claude Design nav concept (Archivo type, off-white paper,
+   Signal Red accent, hard zero-radius corners) in place of the previous
+   graphite/cyan/copper dark theme.
 
    Self-contained on purpose — this file is never loaded alongside
    generator/template/style.css, so a full palette lives here rather than
    being shared, keeping the siteMode "single" path provably untouched. */
 :root {
-    --bg:        #0B0D10;   /* graphite black, not pure black */
-    --surface:   #14171C;   /* card backgrounds */
-    --text:      #EDEEF0;
-    --muted:     #9AA1AC;
-    --primary:   #3FD9C7;   /* Circuit Cyan — links, active nav, avatar fills, dates */
-    --primary-d: #22A896;   /* cyan hover/pressed shade */
-    --accent:    #FF7A33;   /* Solder Copper — CTAs, award badges */
-    --accent-d:  #E8661F;   /* copper hover/pressed shade */
-    --border:    #22262C;
-    --radius:    10px;
-    --radius-lg: 16px;
-    --shadow:    0 8px 24px rgba(0, 0, 0, .5);
+    --bg:        #F3F2F2;   /* off-white paper */
+    --surface:   #EAE9E9;   /* card backgrounds */
+    --text:      #201E1D;   /* near-black ink */
+    --muted:     #6B6867;
+    --primary:   #C94B39;   /* muted rust — links, active nav, avatar fills, dates */
+    --primary-d: #9E3526;   /* rust hover/pressed shade */
+    --accent:    #EC3013;   /* Signal Red — CTAs, award badges */
+    --accent-d:  #AE1800;   /* red hover/pressed shade */
+    --border:    #D9D6D5;
+    --radius:    0px;
+    --radius-lg: 0px;
+    --shadow:    0 8px 24px rgba(32, 30, 29, .16);
 
-    /* Both accent hues are light/bright — white text on either fails WCAG AA
-       (~2.2:1). Dark text on either passes comfortably (~7-11:1). Anything
-       painted with --primary or --accent as a *background* must use --bg
-       (or --accent-text, same value) for its text/icon color, never white. */
-    --accent-text: #0B0D10;
+    /* --accent is dark/saturated enough that light text on it clears the
+       button/UI-component contrast floor (~4.2:1) — the inverse of the old
+       dark theme, where bright accents needed dark text instead. */
+    --accent-text: #FFFFFF;
 
-    --hero-fallback-bg: linear-gradient(135deg, #14171C 0%, #0B0D10 60%);
-    --head-font: "Space Grotesk", Georgia, "Times New Roman", serif;
-    --body-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --hero-fallback-bg: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%);
+    --head-font: "Archivo", system-ui, sans-serif;
+    --body-font: "Archivo", system-ui, sans-serif;
     --mono-font: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
     --topbar-h: 60px;
 }
@@ -59,19 +58,20 @@ a { color: inherit; }
     height: var(--topbar-h);
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 16px;
-    background: rgba(11, 13, 16, .88);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     backdrop-filter: blur(12px) saturate(140%);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--border);
 }
 .topbar-brand {
-    font-family: var(--head-font); font-weight: 700; font-size: 1.05rem; color: var(--text);
+    font-family: var(--head-font); font-weight: 800; font-size: 1.05rem; color: var(--text);
+    letter-spacing: -.01em;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .hamburger-btn {
     width: 44px; height: 44px; flex: 0 0 auto;
     display: flex; align-items: center; justify-content: center;
-    background: transparent; border: 0; border-radius: 8px; cursor: pointer; padding: 0;
+    background: transparent; border: 0; border-radius: 0; cursor: pointer; padding: 0;
 }
 .hamburger-btn:hover { background: var(--surface); }
 .hamburger-box { position: relative; width: 20px; height: 14px; }
@@ -86,10 +86,21 @@ a { color: inherit; }
 .hamburger-btn.is-open .hamburger-line:nth-child(2) { opacity: 0; }
 .hamburger-btn.is-open .hamburger-line:nth-child(3) { top: 6px; transform: rotate(-45deg); }
 
-/* ---------- Nav panel (hamburger dropdown) ---------- */
+/* ---------- Inline nav links (desktop) ----------
+   Hidden below 768px — the hamburger + dropdown panel takes over there,
+   mirroring the imported nav concept's showLinks: !isMobile split. */
+.nav-links { display: none; align-items: center; gap: 22px; }
+.nav-links a {
+    color: var(--text); text-decoration: none; font-size: 14px; font-weight: 600;
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-links a.is-active { color: var(--accent); }
+.nav-links .btn { margin-left: 6px; }
+
+/* ---------- Nav panel (hamburger dropdown, mobile) ---------- */
 .nav-panel {
     position: fixed; top: var(--topbar-h); left: 0; right: 0; z-index: 29;
-    background: var(--surface); border-bottom: 1px solid var(--border);
+    background: var(--surface); border-bottom: 2px solid var(--border);
     box-shadow: var(--shadow);
     display: flex; flex-direction: column; padding: 8px;
     max-height: calc(100vh - var(--topbar-h)); overflow-y: auto;
@@ -99,7 +110,7 @@ a { color: inherit; }
 .nav-panel.is-open { transform: translateY(0); opacity: 1; pointer-events: auto; }
 .nav-panel-item {
     display: flex; align-items: center; gap: 12px; width: 100%;
-    padding: 12px 14px; min-height: 44px; border-radius: 10px; border: 0; background: transparent;
+    padding: 12px 14px; min-height: 44px; border-radius: 0; border: 0; background: transparent;
     cursor: pointer; color: var(--muted); text-align: left; font: inherit;
     transition: background .15s ease, color .15s ease;
 }
@@ -129,12 +140,19 @@ a { color: inherit; }
 .empty-note { color: var(--muted); font-size: .92rem; }
 .btn {
     display: inline-block; min-height: 44px; line-height: 1.4; box-sizing: border-box;
-    padding: 12px 26px; border-radius: 999px; font-weight: 600;
+    padding: 12px 26px; border-radius: 0; font-family: var(--head-font); font-weight: 800;
     text-decoration: none; cursor: pointer; border: 2px solid transparent;
     transition: background .15s ease;
 }
 .btn-primary { background: var(--accent); color: var(--accent-text); }
 .btn-primary:hover { background: var(--accent-d); }
+.btn-secondary { border-color: var(--border); color: var(--text); }
+.btn-secondary:hover { background: var(--surface); }
+.btn-ghost { border-color: var(--border); color: var(--accent); background: transparent; }
+.btn-ghost:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.btn-invert { color: var(--bg); border-color: var(--bg); }
+.btn-invert:hover { background: color-mix(in srgb, var(--bg) 15%, transparent); }
+.btn svg { vertical-align: -2px; margin-left: 4px; }
 .see-all { background: none; border: 0; padding: 0; font-size: .8rem; font-weight: 600; color: var(--primary); cursor: pointer; }
 .see-all:hover { color: var(--primary-d); }
 
@@ -157,8 +175,8 @@ a { color: inherit; }
     content: "";
     position: absolute; inset: 0;
     background-image:
-        linear-gradient(90deg, rgba(63,217,199,.14) 1px, transparent 1px),
-        linear-gradient(rgba(63,217,199,.14) 1px, transparent 1px);
+        linear-gradient(90deg, color-mix(in srgb, var(--primary) 14%, transparent) 1px, transparent 1px),
+        linear-gradient(color-mix(in srgb, var(--primary) 14%, transparent) 1px, transparent 1px);
     background-size: 34px 34px;
     -webkit-mask-image: radial-gradient(ellipse 90% 70% at 70% 30%, #000 40%, transparent 85%);
             mask-image: radial-gradient(ellipse 90% 70% at 70% 30%, #000 40%, transparent 85%);
@@ -182,7 +200,7 @@ a { color: inherit; }
     flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
     padding: 18px 20px; display: flex; gap: 12px; align-items: center; height: fit-content;
 }
-.advisor-icon { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 9px; background: var(--primary); }
+.advisor-icon { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 0; background: var(--primary); }
 .advisor-text { margin: 0; font-size: .88rem; color: var(--muted); }
 .advisor-text strong { color: var(--text); }
 
@@ -193,8 +211,8 @@ a { color: inherit; }
     border: 1px solid var(--border); transition: transform .2s ease, box-shadow .2s ease;
 }
 .teaser-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-/* Next-Up card gets the boldest treatment — copper, tying it visually to
-   the hero's Join Us CTA. Dark text per the accent-contrast rule above. */
+/* Next-Up card gets the boldest treatment — Signal Red, tying it visually
+   to the hero's Join Us CTA. White text per the accent-contrast rule above. */
 .teaser-card.teaser-primary {
     background: var(--accent); border-color: var(--accent); color: var(--accent-text);
     display: flex; flex-direction: column; gap: 10px;
@@ -202,7 +220,7 @@ a { color: inherit; }
 .teaser-eyebrow { font-family: var(--mono-font); font-size: .72rem; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
 .teaser-card.teaser-primary .event-day-col { text-align: left; }
 .teaser-card.teaser-primary .event-day-num { color: var(--accent-text); }
-.teaser-card.teaser-primary .event-day-wd { color: rgba(11,13,16,.7); }
+.teaser-card.teaser-primary .event-day-wd { color: color-mix(in srgb, var(--accent-text) 75%, transparent); }
 .teaser-title { font-weight: 600; font-size: .96rem; margin: 2px 0 0; }
 .teaser-desc { font-size: .84rem; opacity: .85; margin: 2px 0 0; }
 .teaser-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
@@ -211,7 +229,7 @@ a { color: inherit; }
 .mini-avatar-row { display: flex; gap: 8px; }
 .mini-avatar-item { flex: 1; min-width: 0; text-align: center; }
 .mini-avatar {
-    width: 38px; height: 38px; border-radius: 50%; margin: 0 auto 6px;
+    width: 38px; height: 38px; border-radius: 0; margin: 0 auto 6px;
     display: flex; align-items: center; justify-content: center;
     background: var(--primary); color: var(--bg); font-weight: 700; font-size: .72rem; object-fit: cover;
 }
@@ -221,7 +239,7 @@ a { color: inherit; }
 .stats-section { margin-bottom: 28px; }
 .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
 .stat-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 0;
     padding: 18px 12px; text-align: center;
 }
 .stat-value { font-family: var(--mono-font); font-weight: 700; font-size: 1.6rem; color: var(--primary); }
@@ -230,7 +248,7 @@ a { color: inherit; }
 /* ---------- Home: gallery preview ---------- */
 .preview-section { margin-bottom: 28px; }
 .gallery-preview-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.gallery-preview-item { border-radius: 14px; overflow: hidden; aspect-ratio: 1 / 1; }
+.gallery-preview-item { border-radius: 0; overflow: hidden; aspect-ratio: 1 / 1; }
 .gallery-preview-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
 .gallery-preview-item:hover img { transform: scale(1.06); }
 
@@ -245,6 +263,109 @@ a { color: inherit; }
 .quick-link-icon { display: block; width: 24px; height: 24px; margin: 0 auto 8px; color: var(--primary); object-fit: contain; }
 .quick-link-label { display: block; font-size: .84rem; font-weight: 600; color: var(--text); }
 
+/* ---------- Home (redesign) ----------
+   Hand-authored layout for the Home tab only, ported from the club's
+   Claude Design import — see the comment above the markup in
+   custom-template/app-shell.html for why this bypasses renderHomeTabContent()
+   instead of styling its output. ".xyz2" naming keeps these distinct from
+   the older home-* rules above, which now only style the More tab's
+   leftover renderQuickLinks() output and are otherwise dead for Home. */
+.eyebrow2 {
+    display: block; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--primary-d); margin: 0 0 8px;
+}
+.hr2 { height: 2px; border: 0; margin: 0; background: var(--border); }
+
+.home-hero2 { padding: 12px 0 36px; }
+.home-hero2-eyebrow {
+    display: block; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--primary-d); margin: 0 0 16px;
+}
+.home-hero2-title {
+    font-family: var(--head-font); font-weight: 800; font-size: clamp(2.1rem, 8vw, 3.2rem);
+    line-height: 1.05; letter-spacing: -.02em; margin: 0; color: var(--text);
+}
+.home-hero2-title span { display: block; }
+.home-hero2-lead {
+    font-size: .98rem; line-height: 1.65; max-width: 58ch; margin: 22px 0 0;
+    color: color-mix(in srgb, var(--text) 82%, transparent);
+}
+.home-hero2-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+
+.home-stats2 {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 32px 0;
+}
+.stat-card2 { }
+.stat-value2 {
+    font-family: var(--head-font); font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.2rem);
+    line-height: 1; color: var(--accent); margin: 0;
+}
+.stat-label2 {
+    font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--text) 65%, transparent); margin: 8px 0 0;
+}
+
+.home-what2 { padding: 32px 0 8px; }
+.what-row2 { padding: 20px 0; }
+.what-row2-rule { border-top: 2px solid var(--border); }
+.what-num2 { font-family: var(--head-font); font-weight: 800; font-size: .8rem; color: var(--text); margin: 0 0 6px; }
+.what-title2 { font-family: var(--head-font); font-weight: 800; font-size: 1.15rem; letter-spacing: -.01em; margin: 0 0 8px; color: var(--text); }
+.what-desc2 { font-size: .9rem; line-height: 1.6; margin: 0; color: color-mix(in srgb, var(--text) 78%, transparent); }
+
+.home-about2 { display: flex; flex-direction: column; gap: 20px; padding: 20px 0 40px; }
+.home-about2-media {
+    margin: 0; aspect-ratio: 4 / 3; background: var(--hero-fallback-bg); position: relative;
+}
+.home-about2-media::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+        linear-gradient(90deg, color-mix(in srgb, var(--primary) 14%, transparent) 1px, transparent 1px),
+        linear-gradient(color-mix(in srgb, var(--primary) 14%, transparent) 1px, transparent 1px);
+    background-size: 34px 34px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 70% 30%, #000 40%, transparent 85%);
+            mask-image: radial-gradient(ellipse 90% 70% at 70% 30%, #000 40%, transparent 85%);
+}
+.home-about2-title { font-family: var(--head-font); font-weight: 800; font-size: 1.5rem; letter-spacing: -.015em; margin: 0 0 14px; color: var(--text); }
+.home-about2-text { font-size: .9rem; line-height: 1.65; color: color-mix(in srgb, var(--text) 78%, transparent); margin: 0 0 18px; }
+
+.home-quote2 { padding: 4px 0 40px; }
+.home-quote2 blockquote {
+    font-family: var(--head-font); font-weight: 800; font-size: clamp(1.3rem, 4vw, 1.7rem);
+    line-height: 1.4; letter-spacing: -.015em; max-width: 32ch; margin: 0; color: var(--text);
+}
+.home-quote2-attr { font-size: .9rem; color: color-mix(in srgb, var(--text) 70%, transparent); margin: 16px 0 0; }
+
+.home-cta2 { background: var(--accent); color: var(--accent-text); margin: 0 -18px; padding: 44px 18px; }
+.home-cta2-title { font-family: var(--head-font); font-weight: 800; font-size: clamp(1.9rem, 6vw, 2.6rem); line-height: 1.1; letter-spacing: -.015em; margin: 0; }
+.home-cta2-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+.app-footer2 { text-align: left; padding: 32px 0 24px; }
+.app-footer2-top { display: flex; flex-wrap: wrap; gap: 28px; justify-content: space-between; margin-bottom: 24px; }
+.app-footer2-brand { max-width: 38ch; }
+.app-footer2-name { font-family: var(--head-font); font-weight: 800; font-size: 1.05rem; color: var(--text); margin-bottom: 8px; }
+.app-footer2-tagline { font-size: .78rem; color: color-mix(in srgb, var(--text) 65%, transparent); margin: 0; }
+.app-footer2-cols { display: flex; gap: 32px; flex-wrap: wrap; }
+.app-footer2-heading { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: color-mix(in srgb, var(--text) 55%, transparent); margin-bottom: 10px; }
+.app-footer2-links { display: grid; gap: 7px; font-size: .85rem; }
+.app-footer2-links a, .app-footer2-copy a { color: var(--text); text-decoration: none; }
+.app-footer2-links a:hover { color: var(--primary); }
+.app-footer2-social { display: flex; gap: 10px; }
+.app-footer2-social a { color: var(--text); }
+.app-footer2-social a:hover { color: var(--primary); }
+.app-footer2-copy { font-size: .72rem; color: color-mix(in srgb, var(--text) 55%, transparent); margin: 0; }
+
+@media (min-width: 768px) {
+    .home-stats2 { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .home-about2 { flex-direction: row; align-items: center; gap: 40px; }
+    .home-about2-media { flex: 0 0 42%; }
+    .home-cta2 { margin: 0 -40px; padding: 56px 40px; }
+    .what-row2, .what-row2-rule { display: grid; grid-template-columns: 90px 1fr; gap: 8px 32px; align-items: baseline; }
+}
+
+@media (min-width: 992px) {
+    .home-cta2 { margin: 0 -56px; padding: 64px 56px; }
+}
+
 /* ---------- Events tab ---------- */
 .event-month-label {
     font-family: var(--mono-font); font-size: .74rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
@@ -254,7 +375,7 @@ a { color: inherit; }
 .event-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
 .event-card2 {
     display: flex; gap: 14px; align-items: center; background: var(--surface); border: 1px solid var(--border);
-    border-radius: 14px; padding: 14px 16px; transition: transform .2s ease, box-shadow .2s ease;
+    border-radius: 0; padding: 14px 16px; transition: transform .2s ease, box-shadow .2s ease;
 }
 .event-card2:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 .event-day-col { flex: 0 0 auto; width: 44px; text-align: center; }
@@ -266,12 +387,12 @@ a { color: inherit; }
 /* ---------- Team tab ---------- */
 .members-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
 .member-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 10px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 0; padding: 16px 10px;
     text-align: center; transition: transform .2s ease, box-shadow .2s ease;
 }
 .member-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
 .member-avatar {
-    width: 52px; height: 52px; border-radius: 50%; margin: 0 auto 10px;
+    width: 52px; height: 52px; border-radius: 0; margin: 0 auto 10px;
     display: flex; align-items: center; justify-content: center;
     background: var(--primary); color: var(--bg); font-weight: 700; font-size: .95rem; object-fit: cover;
 }
@@ -290,15 +411,15 @@ a { color: inherit; }
 .award-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: 1fr; }
 .award-card {
     display: flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--border);
-    border-radius: 14px; padding: 14px 16px; transition: transform .2s ease, box-shadow .2s ease;
+    border-radius: 0; padding: 14px 16px; transition: transform .2s ease, box-shadow .2s ease;
 }
 .award-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.award-year { flex: 0 0 auto; font-family: var(--mono-font); font-weight: 700; font-size: .78rem; color: var(--accent-text); background: var(--accent); border-radius: 8px; padding: 6px 9px; }
+.award-year { flex: 0 0 auto; font-family: var(--mono-font); font-weight: 700; font-size: .78rem; color: var(--accent-text); background: var(--accent); border-radius: 0; padding: 6px 9px; }
 .award-title { margin: 0; font-size: .88rem; color: var(--text); }
 .award-desc { margin: 3px 0 0; font-size: .78rem; color: var(--muted); }
 
 .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 0; padding: 0; }
-.gallery-item { margin: 0; border-radius: 14px; overflow: hidden; }
+.gallery-item { margin: 0; border-radius: 0; overflow: hidden; }
 .gallery-item img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; transition: transform .3s ease; }
 .gallery-item:hover img { transform: scale(1.06); }
 
@@ -325,7 +446,8 @@ a { color: inherit; }
 /* ================= Tablet / laptop ================= */
 @media (min-width: 768px) {
     .topbar { padding: 0 32px; }
-    .nav-panel { left: auto; right: 24px; width: 260px; border-radius: 0 0 var(--radius-lg) var(--radius-lg); border: 1px solid var(--border); border-top: 0; }
+    .nav-links { display: flex; }
+    .hamburger-btn, .nav-panel { display: none; }
 
     .tab-content { max-width: 960px; padding: calc(var(--topbar-h) + 28px) 40px 8px; }
 

@@ -7,16 +7,16 @@
   "meetingTime": "Saturdays, 10:00 AM – 1:00 PM at the Innovation Lab",
   "moreText": "Want to get involved? Students, mentors, and sponsors are all welcome — come to a Saturday session or reach out below.",
   "theme": {
-    "primaryColor": "#3FD9C7",
-    "accentColor": "#FF7A33",
-    "accentTextColor": "#0B0D10",
-    "backgroundColor": "#0B0D10",
-    "surfaceColor": "#14171C",
-    "textColor": "#EDEEF0",
-    "mutedTextColor": "#9AA1AC",
-    "borderColor": "#22262C",
-    "headingFont": "Space Grotesk",
-    "bodyFont": "Inter"
+    "primaryColor": "#C94B39",
+    "accentColor": "#EC3013",
+    "accentTextColor": "#FFFFFF",
+    "backgroundColor": "#F3F2F2",
+    "surfaceColor": "#EAE9E9",
+    "textColor": "#201E1D",
+    "mutedTextColor": "#6B6867",
+    "borderColor": "#D9D6D5",
+    "headingFont": "Archivo",
+    "bodyFont": "Archivo"
   },
   "links": [
     { "label": "Instagram", "url": "#" },
