@@ -171,6 +171,33 @@ content:
             label: "Value (e.g. 15+, 3, 200+)"
             type: string
             required: true
+      - name: heroEyebrow
+        label: "Home Page Hero Eyebrow (short line above the big headline)"
+        type: string
+      - name: process
+        label: "Home Page — What We Do (numbered steps)"
+        type: object
+        list: true
+        summary: "{title}"
+        fields:
+          - name: title
+            label: "Title"
+            type: string
+            required: true
+          - name: description
+            label: "Description"
+            type: text
+            required: true
+      - name: testimonial
+        label: "Home Page Quote"
+        type: object
+        fields:
+          - name: quote
+            label: "Quote Text"
+            type: text
+          - name: attribution
+            label: "Attribution (e.g. — A student officer, Club Name)"
+            type: string
       - name: images
         label: "Gallery Images"
         type: image

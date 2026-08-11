@@ -33,6 +33,10 @@ site's content. A field-by-field guide:
 | Officers | Your officer roster — name, role, and photo |
 | Events | Upcoming/past events — title, date, description |
 | Awards | Club awards/achievements — title, year, description |
+| Home Page Stats | The number tiles on your home page (e.g. "18+ Team Members") |
+| Home Page Hero Eyebrow | The short line above the big headline at the top of your home page |
+| Home Page — What We Do | The numbered list of what your club does, shown on the home page |
+| Home Page Quote | The pull quote shown on your home page, plus who it's attributed to |
 | Gallery Images | Photos shown in your club's gallery |
 
 **Theme colors**: enter colors as hex codes (the `#rrggbb` format), e.g.
@@ -42,11 +46,12 @@ exact name of a font from [Google Fonts](https://fonts.google.com) (e.g.
 `Inter`, `Newsreader`) — misspelled font names silently fall back to a
 default font.
 
-**Lists** (Quick Links, Officers, Events, Awards, Gallery Images): click
-**+ Add** to add an entry, the trash icon to remove one, and drag to reorder.
-For Awards, the **"Pin to Home page Awards teaser"** checkbox controls
-whether that award shows up in the small preview on your home page — it
-doesn't affect whether the award appears on the full Awards list either way.
+**Lists** (Quick Links, Officers, Events, Awards, Home Page Stats, Home
+Page — What We Do, Gallery Images): click **+ Add** to add an entry, the
+trash icon to remove one, and drag to reorder. For Awards, the **"Pin to
+Home page Awards teaser"** checkbox controls whether that award shows up
+in the small preview on your home page — it doesn't affect whether the
+award appears on the full Awards list either way.
 
 ## Media — uploading images
 

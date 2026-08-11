@@ -32,6 +32,9 @@ jobs:
         run: npm ci
         working-directory: generator
 
+      - name: Derive images/home-content.json from club.json
+        run: node scripts/derive-home-content.js
+
       - name: Build site
         run: node build.js
         working-directory: generator
