@@ -295,9 +295,15 @@ a { color: inherit; }
 .home-stats2 {
     display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 32px 0;
 }
-/* .home-stats2 hosts real .stat-card nodes cloned in from #engine-data by
-   the hydrate script — reuses the Events/Team-tab .stat-card styling below
-   instead of a separate set of "2" classes. */
+.stat-card2 { }
+.stat-value2 {
+    font-family: var(--head-font); font-weight: 800; font-size: clamp(1.7rem, 3.4vw, 2.2rem);
+    line-height: 1; color: var(--accent); margin: 0;
+}
+.stat-label2 {
+    font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--text) 65%, transparent); margin: 8px 0 0;
+}
 
 .home-what2 { padding: 32px 0 8px; }
 .what-row2 { padding: 20px 0; }
@@ -319,13 +325,8 @@ a { color: inherit; }
     -webkit-mask-image: radial-gradient(ellipse 90% 70% at 70% 30%, #000 40%, transparent 85%);
             mask-image: radial-gradient(ellipse 90% 70% at 70% 30%, #000 40%, transparent 85%);
 }
-.home-about2-media img { position: relative; width: 100%; height: 100%; object-fit: cover; display: block; }
 .home-about2-title { font-family: var(--head-font); font-weight: 800; font-size: 1.5rem; letter-spacing: -.015em; margin: 0 0 14px; color: var(--text); }
 .home-about2-text { font-size: .9rem; line-height: 1.65; color: color-mix(in srgb, var(--text) 78%, transparent); margin: 0 0 18px; }
-.home-about2-meta { font-size: .8rem; color: color-mix(in srgb, var(--text) 65%, transparent); margin: -8px 0 18px; }
-.home-about2-meta strong { color: var(--text); }
-
-.home-awards2 { padding: 0 0 40px; }
 
 .home-quote2 { padding: 4px 0 40px; }
 .home-quote2 blockquote {

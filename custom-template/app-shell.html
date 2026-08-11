@@ -70,26 +70,22 @@
     </nav>
 
     <main class="tab-content" id="tab-content">
-        <!-- Home tab layout (hero/stats/what-we-do/about/awards/quote/CTA) is
-             hand-authored per the club's Claude Design import — build.js's
-             renderHomeTabContent() can only be swapped as a whole file, not
-             restyled piecemeal. To keep it CMS-editable anyway, we render the
-             engine's real output here HIDDEN (below) purely as a data source,
-             and a script at the bottom of this file clones the real tagline,
-             description, advisor/meeting line, hero image, stats, awards, and
-             quick links out of it into the visible layout. Only the hero
-             eyebrow line, the "What we do" process steps, and the quote have
-             no corresponding club.json field, so those stay hardcoded — edit
-             them by hand below if they need to change. -->
-        <div id="engine-data" hidden aria-hidden="true">{{homeTabContent}}</div>
+        <!-- Home tab is hand-authored per the club's Claude Design import (hero,
+             stats, sponsors, process steps, about+quote, CTA band) — build.js's
+             renderHomeTabContent() only produces the plain hero+about+teasers
+             layout and can't be overridden piecemeal, only as a whole file. This
+             means the copy below is NOT pulled from club.json at build time;
+             editing it via Pages CMS won't change this tab. Update this block
+             by hand to keep it in sync with club.json's description/stats/
+             awards/officers/links. -->
         <div class="tab-panel" data-tab-panel="home">
             <section class="home-hero2">
                 <span class="home-hero2-eyebrow">Robotics &amp; Mentoring Org &middot; Southern California</span>
-                <h1 class="home-hero2-title" id="home-hero-title">
+                <h1 class="home-hero2-title">
                     <span>Building robots.</span>
                     <span>Building engineers.</span>
                 </h1>
-                <p class="home-hero2-lead" id="home-hero-lead">SoCal Robotics &amp; STEM Foundation is a nonprofit supporting robotics teams and STEM education across Southern California. We provide mentorship, tools, and competition support to students who want to design, build, and program real machines — no prior experience required.</p>
+                <p class="home-hero2-lead">SoCal Robotics &amp; STEM Foundation is a nonprofit supporting robotics teams and STEM education across Southern California. We provide mentorship, tools, and competition support to students who want to design, build, and program real machines — no prior experience required.</p>
                 <div class="home-hero2-actions">
                     <a href="#events" class="btn btn-primary" data-tab-target="events">See our programs
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
@@ -100,7 +96,12 @@
 
             <hr class="hr2">
 
-            <section class="home-stats2" id="home-stats2"></section>
+            <section class="home-stats2">
+                <div class="stat-card2"><p class="stat-value2">18+</p><p class="stat-label2">Team Members</p></div>
+                <div class="stat-card2"><p class="stat-value2">4</p><p class="stat-label2">Seasons Competing</p></div>
+                <div class="stat-card2"><p class="stat-value2">3</p><p class="stat-label2">Regional Awards</p></div>
+                <div class="stat-card2"><p class="stat-value2">200+</p><p class="stat-label2">Mentor Hours / Season</p></div>
+            </section>
 
             <hr class="hr2">
 
@@ -124,20 +125,13 @@
             </section>
 
             <section class="home-about2">
-                <figure class="home-about2-media" id="home-about-media" aria-hidden="true"></figure>
+                <figure class="home-about2-media" aria-hidden="true"></figure>
                 <div>
                     <span class="eyebrow2">Our story</span>
                     <h2 class="home-about2-title">About {{clubName}}</h2>
-                    <p class="home-about2-text" id="home-about-text">SoCal Robotics &amp; STEM Foundation is a nonprofit supporting robotics teams and STEM education across Southern California. We provide mentorship, tools, and competition support to students who want to design, build, and program real machines — no prior experience required.</p>
-                    <p class="home-about2-meta" id="home-about-meta" hidden></p>
+                    <p class="home-about2-text">SoCal Robotics &amp; STEM Foundation is led by advisor <strong>Dr. Elena Marsh</strong> and a student officer team, meeting Saturdays, 10:00 AM – 1:00 PM at the Innovation Lab. We support robotics teams and STEM education across Southern California with mentorship, tools, and competition support for students who want to design, build, and program real machines.</p>
                     <a href="#members" class="btn btn-secondary" data-tab-target="members">Meet the team</a>
                 </div>
-            </section>
-
-            <section class="home-awards2" id="home-awards2" hidden>
-                <span class="eyebrow2">Recognition</span>
-                <h2 class="home-about2-title">Awards &amp; Honors</h2>
-                <div id="home-awards2-slot"></div>
             </section>
 
             <section class="home-quote2">
@@ -185,9 +179,13 @@
                             <a href="#more" data-tab-target="more">More</a>
                         </div>
                     </div>
-                    <div id="app-footer2-connect" hidden>
+                    <div>
                         <div class="app-footer2-heading">Connect</div>
-                        <div class="app-footer2-social" id="app-footer2-social"></div>
+                        <div class="app-footer2-social">
+                            <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a>
+                            <a href="#" aria-label="Donate"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h6.5"></path><path d="M4 10h16"></path><circle cx="18" cy="17" r="3"></circle><path d="M18 15.5V17l1 .5"></path></svg></a>
+                            <a href="#" aria-label="Volunteer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -207,89 +205,6 @@
             navItems[t] = document.querySelector('[data-tab="' + t + '"]');
             navLinks[t] = document.querySelector('.nav-link[data-tab-target="' + t + '"]');
         });
-
-        // Pulls real club.json-driven content out of the hidden #engine-data
-        // block (build.js's normal renderHomeTabContent()/renderMoreTabContent()
-        // output) into the hand-authored Home layout above, so Pages CMS edits
-        // to tagline/description/advisor/meeting time/hero image/stats/awards/
-        // links still show up here without any changes to build.js.
-        function hydrateHomeFromEngineData() {
-            var data = document.getElementById('engine-data');
-            if (!data) return;
-
-            var realTitle = data.querySelector('.home-hero-title');
-            var titleEl = document.getElementById('home-hero-title');
-            if (realTitle && realTitle.textContent.trim() && titleEl) {
-                titleEl.innerHTML = '<span>' + realTitle.innerHTML + '</span>';
-            }
-
-            var realAbout = data.querySelector('.about-text');
-            if (realAbout) {
-                var lead = document.getElementById('home-hero-lead');
-                if (lead) lead.innerHTML = realAbout.innerHTML;
-                var aboutText = document.getElementById('home-about-text');
-                if (aboutText) aboutText.innerHTML = realAbout.innerHTML;
-            }
-
-            var advisor = data.querySelector('.advisor-text');
-            var meeting = data.querySelector('.home-hero-meta');
-            var metaParts = [];
-            if (advisor) metaParts.push(advisor.innerHTML);
-            if (meeting && meeting.textContent.trim()) metaParts.push('<strong>Meets:</strong> ' + meeting.textContent.trim());
-            if (metaParts.length) {
-                var metaEl = document.getElementById('home-about-meta');
-                metaEl.innerHTML = metaParts.join(' &middot; ');
-                metaEl.hidden = false;
-            }
-
-            var heroImg = data.querySelector('.home-hero-img');
-            var media = document.getElementById('home-about-media');
-            if (heroImg && media) {
-                var img = heroImg.cloneNode(true);
-                img.removeAttribute('class');
-                media.innerHTML = '';
-                media.appendChild(img);
-            }
-
-            var statCards = data.querySelectorAll('.stat-card');
-            var statsHost = document.getElementById('home-stats2');
-            if (statCards.length && statsHost) {
-                statCards.forEach(function (card) { statsHost.appendChild(card.cloneNode(true)); });
-            }
-
-            var awardList = data.querySelector('.award-list');
-            if (awardList && awardList.children.length) {
-                document.getElementById('home-awards2-slot').appendChild(awardList.cloneNode(true));
-                document.getElementById('home-awards2').hidden = false;
-            }
-
-            var quickLinks = data.querySelectorAll('.quick-link-card');
-            if (quickLinks.length) {
-                var ICONS = {
-                    instagram: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>',
-                    facebook: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>',
-                    youtube: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg>',
-                    donate: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5V8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h6.5"></path><path d="M4 10h16"></path><circle cx="18" cy="17" r="3"></circle><path d="M18 15.5V17l1 .5"></path></svg>',
-                    volunteer: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>',
-                    email: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>'
-                };
-                var GENERIC = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"></path><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"></path></svg>';
-                var social = document.getElementById('app-footer2-social');
-                quickLinks.forEach(function (card) {
-                    var labelEl = card.querySelector('.quick-link-label');
-                    var label = labelEl ? labelEl.textContent.trim() : '';
-                    var a = document.createElement('a');
-                    a.href = card.getAttribute('href') || '#';
-                    a.target = '_blank';
-                    a.rel = 'noopener';
-                    a.setAttribute('aria-label', label);
-                    a.innerHTML = ICONS[label.toLowerCase()] || GENERIC;
-                    social.appendChild(a);
-                });
-                document.getElementById('app-footer2-connect').hidden = false;
-            }
-        }
-        hydrateHomeFromEngineData();
 
         function activate(tab) {
             if (TABS.indexOf(tab) === -1) tab = 'home';
