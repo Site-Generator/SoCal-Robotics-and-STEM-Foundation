@@ -36,6 +36,7 @@ site's content. A field-by-field guide:
 | Gallery Images | Photos shown in your club's gallery |
 | Home Hero — Eyebrow Text / Title Line 1 / Title Line 2 / Lead Paragraph | The big headline block at the top of the Home page |
 | Home Page — "What We Do" Steps | The numbered process steps on the Home page (e.g. Mentor & teach, Design & build) |
+| Home Page — About / Our Story Text | The "Our Story" paragraph on the Home page |
 | Home Page — Testimonial | The quote shown on the Home page |
 | Home Page — CTA Buttons | The button labels in the call-to-action band on the Home page |
 | Footer Tagline | The short paragraph shown in the site footer |

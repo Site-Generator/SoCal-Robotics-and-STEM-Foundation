@@ -135,6 +135,7 @@
       }
     },
     "footerTagline": { "type": "string" },
+    "homeAboutText": { "type": "string" },
     "socialLinks": {
       "type": "object",
       "additionalProperties": false,

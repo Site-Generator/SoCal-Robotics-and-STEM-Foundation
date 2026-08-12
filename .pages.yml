@@ -226,6 +226,9 @@ content:
       - name: footerTagline
         label: "Footer Tagline"
         type: text
+      - name: homeAboutText
+        label: "Home Page — About / Our Story Text"
+        type: text
       - name: socialLinks
         label: "Footer — Social Links"
         type: object

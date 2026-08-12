@@ -620,6 +620,7 @@ function renderAppShellPage(club, variant) {
         testimonialAttribution: escapeHtml((club.testimonial && club.testimonial.attribution) || ""),
         ctaButtonsBlock: renderCtaButtons(club.ctaButtons),
         footerTagline: escapeHtml(club.footerTagline || ""),
+        homeAboutText: escapeHtml(club.homeAboutText || ""),
         socialInstagramUrl: escapeHtml((club.socialLinks && club.socialLinks.instagramUrl) || "#"),
         socialDonateUrl: escapeHtml((club.socialLinks && club.socialLinks.donateUrl) || "#"),
         socialVolunteerUrl: escapeHtml((club.socialLinks && club.socialLinks.volunteerUrl) || "#"),
