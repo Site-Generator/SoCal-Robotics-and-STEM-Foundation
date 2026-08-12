@@ -178,3 +178,64 @@ content:
           media: images
           multiple:
             max: 60
+      - name: heroEyebrow
+        label: "Home Hero — Eyebrow Text"
+        type: string
+      - name: heroTitleLine1
+        label: "Home Hero — Title Line 1"
+        type: string
+      - name: heroTitleLine2
+        label: "Home Hero — Title Line 2"
+        type: string
+      - name: heroLead
+        label: "Home Hero — Lead Paragraph"
+        type: text
+      - name: process
+        label: "Home Page — \"What We Do\" Steps"
+        type: object
+        list: true
+        summary: "{title}"
+        fields:
+          - name: title
+            label: "Title"
+            type: string
+            required: true
+          - name: description
+            label: "Description"
+            type: text
+      - name: testimonial
+        label: "Home Page — Testimonial"
+        type: object
+        fields:
+          - name: quote
+            label: "Quote"
+            type: text
+          - name: attribution
+            label: "Attribution"
+            type: string
+      - name: ctaButtons
+        label: "Home Page — CTA Buttons"
+        type: object
+        list: true
+        summary: "{label}"
+        fields:
+          - name: label
+            label: "Button Label"
+            type: string
+            required: true
+      - name: footerTagline
+        label: "Footer Tagline"
+        type: text
+      - name: socialLinks
+        label: "Footer — Social Links"
+        type: object
+        fields:
+          - name: instagramUrl
+            label: "Instagram URL"
+            type: string
+          - name: donateUrl
+            label: "Donate URL"
+            type: string
+          - name: volunteerUrl
+            label: "Volunteer URL"
+            type: string

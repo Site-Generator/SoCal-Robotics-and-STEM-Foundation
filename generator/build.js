@@ -386,6 +386,28 @@ function renderStats(stats) {
     </div>`;
 }
 
+function renderHomeStats2(stats) {
+    if (!stats || stats.length === 0) return "";
+    return stats.map(s => `
+                <div class="stat-card2"><p class="stat-value2">${escapeHtml(s.value)}</p><p class="stat-label2">${escapeHtml(s.label)}</p></div>`).join("");
+}
+
+function renderProcessSteps(process) {
+    if (!process || process.length === 0) return "";
+    return process.map((p, i) => `
+                <div class="what-row2${i > 0 ? " what-row2-rule" : ""}">
+                    <p class="what-num2">${String(i + 1).padStart(2, "0")}</p>
+                    <h3 class="what-title2">${escapeHtml(p.title)}</h3>
+                    <p class="what-desc2">${escapeHtml(p.description || "")}</p>
+                </div>`).join("");
+}
+
+function renderCtaButtons(ctaButtons) {
+    if (!ctaButtons || ctaButtons.length === 0) return "";
+    return ctaButtons.map(c => `
+                <a href="#more" class="btn btn-ghost btn-invert" data-tab-target="more">${escapeHtml(c.label)}</a>`).join("");
+}
+
 function renderAboutRow(club) {
     if (!club.description && !club.advisorName) return "";
     const about = club.description
@@ -588,6 +610,19 @@ function renderAppShellPage(club, variant) {
         year: String(new Date().getFullYear()),
         fontLinkHref: buildFontLinkHref(club.theme),
         themeOverrideStyle: renderThemeOverrideStyle(club.theme),
+        heroEyebrow: escapeHtml(club.heroEyebrow || ""),
+        heroTitleLine1: escapeHtml(club.heroTitleLine1 || ""),
+        heroTitleLine2: escapeHtml(club.heroTitleLine2 || ""),
+        heroLead: escapeHtml(club.heroLead || ""),
+        statsBlock: renderHomeStats2(club.stats),
+        processBlock: renderProcessSteps(club.process),
+        testimonialQuote: escapeHtml((club.testimonial && club.testimonial.quote) || ""),
+        testimonialAttribution: escapeHtml((club.testimonial && club.testimonial.attribution) || ""),
+        ctaButtonsBlock: renderCtaButtons(club.ctaButtons),
+        footerTagline: escapeHtml(club.footerTagline || ""),
+        socialInstagramUrl: escapeHtml((club.socialLinks && club.socialLinks.instagramUrl) || "#"),
+        socialDonateUrl: escapeHtml((club.socialLinks && club.socialLinks.donateUrl) || "#"),
+        socialVolunteerUrl: escapeHtml((club.socialLinks && club.socialLinks.volunteerUrl) || "#"),
     });
 }
 

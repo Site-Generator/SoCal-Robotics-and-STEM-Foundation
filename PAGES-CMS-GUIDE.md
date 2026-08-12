@@ -34,6 +34,12 @@ site's content. A field-by-field guide:
 | Events | Upcoming/past events — title, date, description |
 | Awards | Club awards/achievements — title, year, description |
 | Gallery Images | Photos shown in your club's gallery |
+| Home Hero — Eyebrow Text / Title Line 1 / Title Line 2 / Lead Paragraph | The big headline block at the top of the Home page |
+| Home Page — "What We Do" Steps | The numbered process steps on the Home page (e.g. Mentor & teach, Design & build) |
+| Home Page — Testimonial | The quote shown on the Home page |
+| Home Page — CTA Buttons | The button labels in the call-to-action band on the Home page |
+| Footer Tagline | The short paragraph shown in the site footer |
+| Footer — Social Links | The Instagram, Donate, and Volunteer link URLs in the site footer |
 
 **Theme colors**: enter colors as hex codes (the `#rrggbb` format), e.g.
 `#2b6cb0`. If you're not sure what to put, ask someone with a bit of design

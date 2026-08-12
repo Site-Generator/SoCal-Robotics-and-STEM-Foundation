@@ -43,5 +43,25 @@
     { "label": "Seasons Competing", "value": "4" },
     { "label": "Regional Awards", "value": "3" },
     { "label": "Mentor Hours / Season", "value": "200+" }
-  ]
+  ],
+  "heroEyebrow": "Robotics & Mentoring Org · Southern California",
+  "heroTitleLine1": "Building robots.",
+  "heroTitleLine2": "Building engineers.",
+  "heroLead": "SoCal Robotics & STEM Foundation is a nonprofit supporting robotics teams and STEM education across Southern California. We provide mentorship, tools, and competition support to students who want to design, build, and program real machines — no prior experience required.",
+  "process": [
+    { "title": "Mentor & teach", "description": "We coach rookie FTC and FLL teams, run workshops, and bring robotics into classrooms across Southern California — because someone did the same for us." },
+    { "title": "Design & build", "description": "Every arm, drivetrain and mechanism is engineered, machined and iterated by students — from CAD to competition day." },
+    { "title": "Code & strategize", "description": "Our programmers write autonomous routines and drive software from scratch, then scout and strategize alliance by alliance." }
+  ],
+  "testimonial": {
+    "quote": "Robotics didn't just teach me to code — it taught me to lead.",
+    "attribution": "A student officer, SoCal Robotics & STEM Foundation"
+  },
+  "ctaButtons": [
+    { "label": "Request mentoring" },
+    { "label": "Become a sponsor" },
+    { "label": "Apply to join" }
+  ],
+  "footerTagline": "A nonprofit supporting robotics teams and STEM education across Southern California — meeting Saturdays, 10:00 AM – 1:00 PM at the Innovation Lab.",
+  "socialLinks": {}
 }
